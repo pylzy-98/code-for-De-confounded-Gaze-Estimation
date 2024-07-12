@@ -1,0 +1,107 @@
+train_setting:
+  epoch: 10
+  random_seed: 9
+  device: 1
+  meta_loop: 1
+  accumulation_steps: 1
+  grad_clip_norm: 5.0
+  cls_loss_coff: 1.0
+  hd_loss_coff: 1.0
+  detr_gz_coff: 1.0
+  detr_gz_giou_coff: 1.0
+  gaze_loss_coff: 1.0
+  normal_model_lr: 0.0001
+  causal_model_lr: 0.0001
+  max_steps: null
+  warmup_steps: 3000
+  min_lr: 0.0
+  warmup_lr: 0.0
+  using_detr_gz_loss: true
+  test_pnum: 0
+data:
+  image_size: 224
+  batch_size: 512
+  datapath:
+    ETH: ./xgaze_224/
+    MPII: ./MPIIFaceGaze/
+    Gaze360: ./Gaze360/
+    EyeDiap: ./EyeDiap_224/
+  trainset_setting:
+    type: train
+    dataset_name: ETH
+    num_workers: 8
+    shuffle: true
+    batch_size: 512
+    drop_last: false
+  testset_setting:
+    type: full
+    dataset_name: MPII
+    num_workers: 8
+    shuffle: false
+    batch_size: 512
+    drop_last: false
+  valset_setting:
+    type: test
+    dataset_name: ${data.trainset_setting.dataset_name}
+    num_workers: 8
+    shuffle: true
+    batch_size: 512
+    drop_last: false
+    test_pnum: 1
+image_encoder:
+  name: resnet18
+  pretrained: true
+  output_dim: 512
+decoder:
+  d_model: 512
+  nhead: 8
+  n_joint_encoder_layers: 0
+  n_decoder_layers: 1
+  n_output_encoder_layers: 0
+  act: relu
+  dropout: 0.3
+  attention_dropout: 0.0
+  droppath_prob: 0.2
+  layer_scale: true
+  layer_scale_init: 0.1
+  enc_dec_droppath: false
+  decoder_sa: true
+  decoder_ff: true
+  shortcut_tokens: true
+  shortcut_pos_embeddings: true
+  return_intermediate: false
+  return_intermediate_attentions: false
+causal_model:
+  fusion_mode: add
+  gaze_dim: 2
+  hd_layers:
+    n_layers: 1
+    d_in: 512
+    d_out: 512
+    d_hidden_factor: 2
+  Ez_layers:
+    n_layers: 1
+    d_in: 512
+    d_out: 512
+    d_hidden_factor: 2
+  gaze_fc:
+    n_layers: 2
+    d_in: 512
+    d_out: 2
+    d_hidden_factor: 2
+    dropout: 0.3
+    dropout_last_layer: true
+feature_model:
+  detr_hd:
+    n_layers: 1
+    d_in: 512
+    d_out: 2
+    d_hidden_factor: 2
+  detr_gz:
+    n_layers: 1
+    d_in: 512
+    d_out: 2
+    d_hidden_factor: 2
+log:
+  save_path: ./CausalityExperiments/
+
