@@ -66,7 +66,7 @@ If you want to modify the config of the model, you can modify the file: ./config
 
 #### Pre-trained model
 
-Due to file size limitation, we only provide model parameters trained on ETH-XGaze.
+We provide model parameters trained on ETH-XGaze.
 
 > - ETH: model_pth/resnet18_ETH.pth
 
