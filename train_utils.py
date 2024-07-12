@@ -112,7 +112,7 @@ class GazeCausalModel(nn.Module):
                              d_out=config.feature_model.detr_gz.d_out, d_hidden_factor=config.feature_model.detr_gz.d_hidden_factor)
         self.causal_tokens = nn.Parameter(torch.randn(3, config.decoder.d_model) / math.sqrt(config.decoder.d_model))
     
-    def forward(self, face_img, prev_p: torch.FloatTensor, prev_z: torch.FloatTensor):
+    def forward(self, face_img, prev_p: torch.FloatTensor, prev_z: torch.FloatTensor, mode='train'):
         img_features, pos_embeddings = self.img_encoder(face_img)
         
         if self.causal_tokens.ndim == 2:
@@ -141,8 +141,11 @@ class GazeCausalModel(nn.Module):
 
         detr_gz = self.w_gz(w)
         
-        Ez = (prev_p * prev_z + x.shape[0] * torch.mean(z, dim=0, keepdim=True)) / (prev_p + x.shape[0]) 
-        Ez = Ez.repeat(x.shape[0], 1)
+        if mode == 'train':
+            Ez = (prev_p * prev_z + x.shape[0] * torch.mean(z, dim=0, keepdim=True)) / (prev_p + x.shape[0]) # shape=[1,512]
+            Ez = Ez.repeat(x.shape[0], 1)
+        else:
+            Ez = (prev_p * prev_z + z) / (prev_p + 1) # shape=[1,512]
         
         gaze, gaze_fea = self.causal_intervention(x, w, Ez)
         

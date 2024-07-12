@@ -1,6 +1,6 @@
 train_setting:
   epoch: 10
-  random_seed: 9
+  random_seed: 10000
   device: 1
   meta_loop: 1
   accumulation_steps: 1

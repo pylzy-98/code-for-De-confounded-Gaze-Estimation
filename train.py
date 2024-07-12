@@ -133,7 +133,7 @@ class ContiGaze():
                 img = face['face'].to(self.device)  
                 
                 detr_cls, detr_hd_coord, detr_gz, pred_gaze, _, (token_features, gaze_fea) = self.model(img, prev_p=prev_p,
-                                                                    prev_z=prev_z)
+                                                                    prev_z=prev_z, mode='test')
                 
                 angular_error += ContiGaze.Gen_test_log_batch(pred_gaze, gaze)
                 count += img.shape[0]

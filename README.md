@@ -10,7 +10,7 @@
 
 **Picture:** Left: The head pose and gaze distributions in the ETH-XGaze dataset, which intuitively demonstrate the difference between the head pose/gaze distribution and their corresponding conditional distributions. Right: The overall structure of the proposed Feature-Separation-based Causal Intervention (FSCI) framework. the FSCI employs causal intervention to mitigate the influence of gaze-irrelevant feature on the gaze estimation process.
 
-![causal graph](./figs/causal graph.png)
+![causal graph](./figs/causal_graph.png)
 
 **Picture:** Illustration of our gaze estimation causal graph. After intervening on $Z$, the path $Z → I$ will be blocked.
 
