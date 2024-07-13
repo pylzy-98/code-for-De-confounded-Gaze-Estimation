@@ -59,7 +59,6 @@ python=3.9.18
 
 If you want to modify the config of the model, you can modify the file: ./config/causality.yaml
 
-> - **Training:** python train.py
 > - **Testing:** python test.py
 
 
@@ -69,6 +68,7 @@ If you want to modify the config of the model, you can modify the file: ./config
 We provide model parameters trained on ETH-XGaze.
 
 > - ETH: model_pth/resnet18_ETH.pth
+> - Gaze360: model_pth/resnet18_Gaze360.pth
 
 
 
